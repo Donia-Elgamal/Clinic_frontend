@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinic Frontend</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <div class="brand">
+        <span class="brand__mark">✚</span>
+        <div>
+          <div class="brand__name">عيادة الأمل</div>
+          <div class="brand__sub">حجز مواعيد • متابعة • تذكير</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#home" class="nav__link">الرئيسية</a>
+        <a href="#services" class="nav__link">الخدمات</a>
+        <a href="#doctors" class="nav__link">الأطباء</a>
+        <a href="#contact" class="nav__link">تواصل</a>
+        <a href="#book" class="btn btn--primary nav__cta">احجز موعد</a>
+      </nav>
+
+      <button class="burger" id="burger" aria-label="القائمة">☰</button>
+    </div>
+
+    <div class="mobile-nav" id="mobileNav" hidden>
+      <a href="#home">الرئيسية</a>
+      <a href="#services">الخدمات</a>
+      <a href="#doctors">الأطباء</a>
+      <a href="#contact">تواصل</a>
+      <a href="#book" class="btn btn--primary">احجز موعد</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <div class="pill">دقة • راحة • خصوصية</div>
+          <h1>احجز موعدك الآن…</h1>
+          <p class="muted">
+            واجهة بسيطة وسريعة لعيادتك باستخدام <b>HTML + CSS + JavaScript</b>.
+            اختر الخدمة، الطبيب، والوقت المناسب.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#book">ابدأ الحجز</a>
+            <a class="btn btn--ghost" href="#services">شاهد الخدمات</a>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat__num" id="statAppointments">0</div>
+              <div class="stat__label">موعد محجوز</div>
+            </div>
+            <div class="stat">
+              <div class="stat__num">24/7</div>
+              <div class="stat__label">طلب حجز</div>
+            </div>
+            <div class="stat">
+              <div class="stat__num">★ 4.8</div>
+              <div class="stat__label">تقييم المرضى</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__card">
+          <div class="hero__cardTop">
+            <div>
+              <div class="hero__cardTitle">مواعيد اليوم</div>
+              <div class="hero__cardSub muted" id="todayLabel">--</div>
+            </div>
+            <div class="badge" id="nextBadge">التالي: --</div>
+          </div>
+
+          <div class="schedule" id="scheduleList">
+            <!-- filled by JS -->
+          </div>
+
+          <div class="hero__cardBottom">
+            <button class="btn btn--primary" id="quickBook">حجز سريع</button>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section__header">
+          <h2>الخدمات</h2>
+          <p class="muted">اختر الخدمة المناسبة… ثم تابع للحجز.</p>
+        </div>
+
+        <div class="cards" id="servicesCards">
+          <!-- filled by JS -->
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="doctors">
+      <div class="container">
+        <div class="section__header">
+          <h2>الأطباء</h2>
+          <p class="muted">ملفات مختصرة وسهلة للاختيار.</p>
+        </div>
+
+        <div class="cards" id="doctorsCards"></div>
+      </div>
+    </section>
+
+    <section class="section section--accent" id="book">
+      <div class="container book">
+        <div class="book__left">
+          <h2>احجز موعد</h2>
+          <p class="muted">لن يتم إرسال بياناتك لباك اند (Demo). سيتم حفظ الحجز في المتصفح.</p>
+
+          <div class="formTips">
+            <div class="tip">
+              <span class="tip__icon">⏱</span>
+              <span>تحديد وقت متاح</span>
+            </div>
+            <div class="tip">
+              <span class="tip__icon">🔒</span>
+              <span>خصوصية: محلي فقط</span>
+            </div>
+            <div class="tip">
+              <span class="tip__icon">📩</span>
+              <span>تذكير عبر UI فقط</span>
+            </div>
+          </div>
+
+          <div class="availability" id="availabilityBox">
+            <div class="availability__row">
+              <div class="availability__label">الحالة</div>
+              <div class="availability__value" id="availabilityValue">--</div>
+            </div>
+            <div class="availability__row">
+              <div class="availability__label">الوقت المقترح</div>
+              <div class="availability__value" id="suggestTime">--</div>
+            </div>
+          </div>
+        </div>
+
+        <form class="book__form" id="bookingForm">
+          <div class="grid2">
+            <label>
+              <span>الخدمة</span>
+              <select id="serviceSelect" required></select>
+            </label>
+            <label>
+              <span>الطبيب</span>
+              <select id="doctorSelect" required></select>
+            </label>
+          </div>
+
+          <div class="grid2">
+            <label>
+              <span>التاريخ</span>
+              <input id="dateInput" type="date" required />
+            </label>
+            <label>
+              <span>الوقت</span>
+              <select id="timeSelect" required></select>
+            </label>
+          </div>
+
+          <div class="grid2">
+            <label>
+              <span>الاسم</span>
+              <input id="nameInput" type="text" placeholder="مثال: أحمد" required />
+            </label>
+            <label>
+              <span>رقم الجوال</span>
+              <input id="phoneInput" type="tel" placeholder="05xxxxxxxx" required />
+            </label>
+          </div>
+
+          <label>
+            <span>ملاحظات (اختياري)</span>
+            <textarea id="notesInput" rows="3" placeholder="أخبرنا باختصار..."></textarea>
+          </label>
+
+          <div class="formActions">
+            <button class="btn btn--primary" type="submit">تأكيد الحجز</button>
+            <button class="btn btn--ghost" type="button" id="viewBookings">عرض الحجوزات</button>
+          </div>
+
+          <div class="alert" id="formAlert" hidden></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section" id="bookings">
+      <div class="container">
+        <div class="section__header">
+          <h2>حجوزاتي</h2>
+          <p class="muted">يتم حفظ الحجوزات في localStorage.</p>
+        </div>
+        <div class="tableWrap">
+          <table class="table" aria-label="حجوزات">
+            <thead>
+              <tr>
+                <th>التاريخ</th>
+                <th>الوقت</th>
+                <th>الخدمة</th>
+                <th>الطبيب</th>
+                <th>الاسم</th>
+                <th>إجراء</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsTbody">
+              <tr><td colspan="6" class="muted">لا توجد حجوزات بعد.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="dangerRow">
+          <button class="btn btn--danger" id="clearBookings" type="button">حذف جميع الحجوزات</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container contact">
+        <div>
+          <h2>تواصل</h2>
+          <p class="muted">هل لديك سؤال؟ اكتب رسالة وسنرد ضمن الواجهة.</p>
+          <div class="contact__list">
+            <div class="contactItem"><span>📞</span> <b>9200 000 000</b></div>
+            <div class="contactItem"><span>📍</span> <b>الرياض - طريق الملك</b></div>
+            <div class="contactItem"><span>🕒</span> <b>10:00 - 22:00</b></div>
+          </div>
+        </div>
+
+        <div class="contact__card">
+          <div class="contact__cardTitle">رسالة سريعة</div>
+          <form id="contactForm">
+            <label>
+              <span>الاسم</span>
+              <input type="text" id="contactName" required />
+            </label>
+            <label>
+              <span>البريد أو الجوال</span>
+              <input type="text" id="contactValue" required />
+            </label>
+            <label>
+              <span>الموضوع</span>
+              <input type="text" id="contactSubject" required />
+            </label>
+            <label>
+              <span>الرسالة</span>
+              <textarea id="contactMessage" rows="4" required></textarea>
+            </label>
+
+            <button class="btn btn--primary" type="submit">إرسال</button>
+            <div class="alert" id="contactAlert" hidden></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>© <span id="year"></span> عيادة الأمل</div>
+      <div class="muted">Frontend demo باستخدام HTML/CSS/JS</div>
+    </div>
+  </footer>
+
+
+    <div class="modal__content" role="dialog" aria-modal="true">
+      <div class="modal__header">
+        <div>
+          <div class="modal__title">طلب استشارة</div>
+          <div class="modal__sub muted">سنظهر لك رسالة تأكيد داخل الواجهة.</div>
+        </div>
+        <button class="iconBtn" id="closeModal" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form id="consultForm" class="modal__body">
+        <label>
+          <span>الاسم</span>
+          <input type="text" id="consultName" required />
+        </label>
+        <label>
+          <span>رقم الجوال</span>
+          <input type="tel" id="consultPhone" required />
+        </label>
+        <label>
+          <span>ما الذي تحتاجه؟</span>
+          <textarea id="consultText" rows="3" required></textarea>
+        </label>
+
+        <div class="modal__actions">
+          <button class="btn btn--primary" type="submit">إرسال</button>
+          <button class="btn btn--ghost" type="button" id="cancelModal">إلغاء</button>
+        </div>
+
+        <div class="alert" id="consultAlert" hidden></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
